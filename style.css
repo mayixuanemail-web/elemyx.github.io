@@ -9,6 +9,7 @@
     --primary-color: #2563eb;
     --secondary-color: #1e40af;
     --text-color: #1f2937;
+    --gray-text: #6b7280;
     --light-bg: #f9fafb;
     --white: #ffffff;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -157,7 +158,7 @@ section h2 {
 }
 
 .skill-card p {
-    color: #6b7280;
+    color: var(--gray-text);
 }
 
 /* Projects Section */
@@ -188,7 +189,7 @@ section h2 {
 }
 
 .project-card p {
-    color: #6b7280;
+    color: var(--gray-text);
     line-height: 1.6;
 }
 
@@ -230,6 +231,18 @@ footer {
     color: var(--white);
     text-align: center;
     padding: 2rem 0;
+}
+
+/* Animation classes */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Responsive Design */
