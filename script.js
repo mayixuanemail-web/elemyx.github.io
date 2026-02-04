@@ -10,7 +10,7 @@ function triggerUltraChaos() {
     // 随机颜色
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#00ff00', '#ff00ff'];
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 80; i++) {
         createConfetti();
     }
     
@@ -18,15 +18,15 @@ function triggerUltraChaos() {
     const cards = document.querySelectorAll('.hero-card');
     cards.forEach(card => {
         card.style.transform = `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.8 + 0.5}) skewX(${Math.random() * 20 - 10}deg)`;
-        card.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+        card.style.filter = `hue-rotate(${Math.random() * 360}deg) brightness(${Math.random() * 0.5 + 0.8})`;
     });
     
-    // 页面抖动
+    // 页面强烈抖动
     let shakeCount = 0;
     const shakeInterval = setInterval(() => {
-        body.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
+        body.style.transform = `translate(${Math.random() * 30 - 15}px, ${Math.random() * 30 - 15}px) rotate(${Math.random() * 5 - 2.5}deg)`;
         shakeCount++;
-        if (shakeCount > 30) {
+        if (shakeCount > 50) {
             clearInterval(shakeInterval);
             body.style.transform = '';
             document.querySelector('.glitch-bg').classList.remove('active');
@@ -36,7 +36,7 @@ function triggerUltraChaos() {
                 card.style.filter = '';
             });
         }
-    }, 50);
+    }, 40);
 }
 
 // 脑洗模式

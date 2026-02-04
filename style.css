@@ -50,6 +50,25 @@ body.brainwash {
     100% { background-position: 0% 50%; }
 }
 
+/* 聚光灯效果 */
+.spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    animation: spotlightMove 8s ease-in-out infinite;
+}
+
+@keyframes spotlightMove {
+    0% { background: radial-gradient(circle at 30% 30%, transparent 0%, rgba(0, 0, 0, 0.3) 100%); }
+    50% { background: radial-gradient(circle at 70% 70%, transparent 0%, rgba(0, 0, 0, 0.3) 100%); }
+    100% { background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.3) 100%); }
+}
+
 /* 故障背景 */
 .glitch-bg {
     position: fixed;
@@ -148,6 +167,43 @@ body.brainwash {
     text-align: center;
     margin: 2rem 0;
     animation: titleShake 0.1s infinite;
+    position: relative;
+    z-index: 20;
+}
+
+/* 标题光晕效果 */
+.title-glow {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 0, 255, 0.6) 0%, transparent 70%);
+    animation: titleGlowPulse 2s ease-in-out infinite;
+    pointer-events: none;
+    filter: blur(40px);
+}
+
+@keyframes titleGlowPulse {
+    0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.2); }
+}
+
+.title-underline {
+    height: 4px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+    background-size: 200% 100%;
+    animation: rainbowFlow 3s linear infinite;
+    margin: 1rem auto;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+}
+
+@keyframes rainbowFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
 }
 
 @keyframes titleShake {
@@ -176,10 +232,25 @@ body.brainwash {
     text-shadow: 
         2px 2px 0px #00ffff,
         4px 4px 0px #ffff00,
-        -2px -2px 0px #ff0000;
-    animation: glitch 0.15s infinite;
+        -2px -2px 0px #ff0000,
+        0 0 20px #ff00ff,
+        0 0 40px #00ffff,
+        0 0 60px #ff00ff,
+        0 0 80px rgba(255, 0, 255, 0.7);
+    animation: glitch 0.15s infinite, titleScale 2s ease-in-out infinite, titleGlowIntense 1.5s ease-in-out infinite;
     position: relative;
     letter-spacing: 3px;
+    filter: drop-shadow(0 0 15px #ff00ff) drop-shadow(0 0 25px #00ffff);
+}
+
+@keyframes titleGlowIntense {
+    0%, 100% { text-shadow: 2px 2px 0px #00ffff, 4px 4px 0px #ffff00, -2px -2px 0px #ff0000, 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 60px #ff00ff, 0 0 80px rgba(255, 0, 255, 0.7); }
+    50% { text-shadow: 2px 2px 0px #00ffff, 4px 4px 0px #ffff00, -2px -2px 0px #ff0000, 0 0 30px #ff00ff, 0 0 60px #00ffff, 0 0 90px #ff00ff, 0 0 120px rgba(255, 0, 255, 1); }
+}
+
+@keyframes titleScale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 @keyframes glitch {
@@ -187,28 +258,36 @@ body.brainwash {
         text-shadow: 
             2px 2px 0px #00ffff,
             4px 4px 0px #ffff00,
-            -2px -2px 0px #ff0000;
+            -2px -2px 0px #ff0000,
+            0 0 20px #ff00ff,
+            0 0 40px #00ffff;
         transform: skewX(0deg);
     }
     25% {
         text-shadow: 
             -2px 2px 0px #00ffff,
             2px -4px 0px #ffff00,
-            4px 2px 0px #ff0000;
+            4px 2px 0px #ff0000,
+            0 0 30px #ff00ff,
+            0 0 60px #00ffff;
         transform: skewX(-5deg);
     }
     50% {
         text-shadow: 
             2px -2px 0px #00ffff,
             -4px 4px 0px #ffff00,
-            -2px 2px 0px #ff0000;
+            -2px 2px 0px #ff0000,
+            0 0 40px #ff00ff,
+            0 0 80px #00ffff;
         transform: skewX(5deg);
     }
     100% {
         text-shadow: 
             2px 2px 0px #00ffff,
             4px 4px 0px #ffff00,
-            -2px -2px 0px #ff0000;
+            -2px -2px 0px #ff0000,
+            0 0 20px #ff00ff,
+            0 0 40px #00ffff;
         transform: skewX(0deg);
     }
 }
@@ -257,9 +336,20 @@ body.brainwash {
 }
 
 .hero-card:hover {
-    transform: rotate(2deg) scale(1.1) skewX(-5deg);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px #ff00ff;
-    animation: none;
+    transform: rotate(2deg) scale(1.15) skewX(-5deg) translateY(-10px);
+    box-shadow: 
+        0 0 20px #ff00ff,
+        0 0 40px #00ffff,
+        0 0 60px #ff00ff,
+        0 0 80px rgba(255, 0, 255, 0.6),
+        0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: cardHoverPulse 0.5s ease-out;
+    z-index: 100;
+}
+
+@keyframes cardHoverPulse {
+    0% { transform: rotate(2deg) scale(1.1) skewX(-5deg); }
+    100% { transform: rotate(2deg) scale(1.15) skewX(-5deg) translateY(-10px); }
 }
 
 .hero-aura {
@@ -303,8 +393,17 @@ body.brainwash {
     font-size: 1.8rem;
     font-weight: bold;
     color: #ff00ff;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    animation: bounce 1.5s infinite, textGlitch 0.2s infinite;
+    text-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 30px #00ffff,
+        1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: bounce 1.5s infinite, textGlitch 0.2s infinite, nameGlowPulse 2s ease-in-out infinite;
+}
+
+@keyframes nameGlowPulse {
+    0%, 100% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #00ffff, 1px 1px 2px rgba(0, 0, 0, 0.2); }
+    50% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #00ffff, 2px 2px 4px rgba(0, 0, 0, 0.3); }
 }
 
 .hero-title {
@@ -362,30 +461,48 @@ body.brainwash {
     border-radius: 20px;
     border: 5px solid;
     border-color: #ff00ff;
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+    box-shadow: 
+        0 0 30px rgba(255, 0, 255, 0.5),
+        0 0 60px rgba(0, 255, 255, 0.3),
+        inset 0 0 30px rgba(255, 0, 255, 0.1);
     animation: chaosGlow 1s ease infinite, sectionShake 0.3s ease-in-out infinite;
+    position: relative;
+    z-index: 15;
+}
+
+.button-glow {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 150px;
+    background: radial-gradient(ellipse at center, rgba(255, 0, 255, 0.6), transparent 70%);
+    animation: buttonGlowPulse 2s ease-in-out infinite;
+    pointer-events: none;
+    filter: blur(30px);
+}
+
+@keyframes buttonGlowPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
 }
 
 @keyframes chaosGlow {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
-    50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8); }
-}
-
-@keyframes sectionShake {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(-3px, 3px); }
-    50% { transform: translate(3px, -3px); }
-    75% { transform: translate(-3px, -3px); }
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(255, 0, 255, 1), 0 0 80px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.5);
+    }
 }
 
 .chaos-button {
-    background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
-    background-size: 300% 300%;
-    color: white;
-    border: 2px solid #00ff00;
-    padding: 1rem 1.5rem;
-    margin: 0.5rem;
-    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: 3px solid #ff00ff;
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+    background-size: 300% 100%;
     border-radius: 15px;
     cursor: pointer;
     font-weight: bold;
@@ -393,6 +510,20 @@ body.brainwash {
     box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
     transition: all 0.3s ease;
     font-family: 'Comic Sans MS', cursive;
+}
+
+.primary-btn {
+    font-size: 1.3rem;
+    padding: 1.2rem 2rem;
+    animation: 
+        buttonGradient 2.5s ease infinite,
+        buttonBounce 0.3s ease infinite,
+        primaryPulse 2s ease-in-out infinite;
+}
+
+@keyframes primaryPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 0, 255, 1), 0 0 80px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.5); }
 }
 
 @keyframes buttonGradient {
@@ -407,8 +538,16 @@ body.brainwash {
 }
 
 .chaos-button:hover {
-    box-shadow: 0 0 50px rgba(255, 0, 255, 1), 0 0 100px rgba(0, 255, 255, 1);
-    transform: scale(1.2) rotate(5deg) skewX(-5deg);
+    box-shadow: 
+        0 0 60px rgba(255, 0, 255, 1),
+        0 0 100px rgba(0, 255, 255, 1),
+        0 0 150px rgba(255, 255, 0, 0.6),
+        inset 0 0 40px rgba(255, 255, 255, 0.5);
+    transform: scale(1.25) rotate(5deg) skewX(-5deg);
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    animation: buttonGradient 3s ease infinite, buttonBounce 0.4s ease infinite;
 }
 
 .chaos-button:active {
@@ -498,5 +637,4 @@ body.brainwash {
         padding: 0.8rem 1.2rem;
         font-size: 0.9rem;
     }
-}
 }
