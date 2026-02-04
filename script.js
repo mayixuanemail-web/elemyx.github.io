@@ -1,58 +1,46 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Add active class to navigation links based on scroll position
-window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section[id]');
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            if (navLink) {
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    link.classList.remove('active');
-                });
-                navLink.classList.add('active');
+// 文本框交互功能
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取所有按钮
+    const buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // 添加点击动画
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            // 处理按钮功能
+            if (this.textContent.includes('关闭')) {
+                this.closest('.textbox').style.animation = 'fadeOut 0.5s ease-out forwards';
             }
-        }
+            
+            // 300毫秒后移除涟漪效果
+            setTimeout(() => ripple.remove(), 600);
+        });
     });
-});
-
-// Add animation on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
+    
+    // 添加文本框的进入动画
+    const textboxes = document.querySelectorAll('.textbox');
+    textboxes.forEach((box, index) => {
+        box.style.animation = `slideIn 0.6s ease-out ${index * 0.1}s forwards`;
+        box.style.opacity = '0';
     });
-}, observerOptions);
-
-// Observe all cards and sections
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.skill-card, .project-card');
-    cards.forEach(card => {
-        card.classList.add('animate-on-scroll');
-        observer.observe(card);
+    
+    // 鼠标悬停效果
+    textboxes.forEach(box => {
+        box.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        box.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
     });
 });
